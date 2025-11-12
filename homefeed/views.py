@@ -1,8 +1,11 @@
-from django.shortcuts import render
+from django.contrib import messages
+from django.contrib.auth.models import User
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render, reverse
 from django.views import generic
+
 from .forms import PostForm
 from .models import Post
-
 
 # Create your views here.
 
@@ -18,60 +21,56 @@ class PostList(generic.ListView):
 
 #@login_required
 def create_post(request):
-    """
-    """
 
-    # # Handle if POST request
-    # if request.method == "POST":
-    #     post_form = PostForm(request.POST, request.FILES)
+    # Handle if POST request
+    if request.method == "POST":
+        post_form = PostForm(request.POST, request.FILES)
 
-    #     # Get the image from the request.
-    #     # If unable then add an error to form to make it invalid.
-    #     try:
-    #         image = request.FILES.get('image')
-    #         content_type = image.content_type
-    #         valid_content = ["image/jpeg", "image/png", "image/svg+xml"]
-    #         if content_type not in valid_content:
-    #             messages.add_message(
-    #                 request, messages.ERROR,
-    #                 'File uploaded not one of the accepted types. '
-    #                 'Please try uploading an image of JPG, PNG or SVG format.'
-    #             )
-    #             raise ValueError(
-    #                 f'File content_type not in {valid_content}. '
-    #                 + 'Instead it was {content_type}.')
-    #     except (AttributeError, ValueError) as error:
-    #         post_form.add_error('image', error)
+        # Get the image from the request.
+        # If unable then add an error to form to make it invalid.
+        try:
+            image = request.FILES.get('image')
+            content_type = image.content_type
+            valid_content = ["image/jpeg", "image/png", "image/svg+xml"]
+            if content_type not in valid_content:
+                messages.add_message(
+                    request, messages.ERROR,
+                    'File uploaded not one of the accepted types. '
+                    + 'Please try uploading an image of JPG, PNG or SVG format.'
+                )
+                raise ValueError(
+                    f'File content_type not in {valid_content}. '
+                    + f'Instead it was {content_type}.')
+        except (AttributeError, ValueError) as error:
+            post_form.add_error('image', error)
 
-    #     # Save valid post or redirect on error.
-    #     if post_form.is_valid():
-    #         profile_queryset = UserProfile.objects.filter(user=request.user)
-    #         author_profile = get_object_or_404(profile_queryset)
-    #         post = post_form.save(commit=False)
-    #         post.author = author_profile
-    #         post.save()
-    #         messages.add_message(
-    #             request, messages.SUCCESS,
-    #             'Post submitted successfully!'
-    #         )
-    #         return HttpResponseRedirect(reverse('homefeed'))
-    #     else:
-    #         messages.add_message(
-    #             request, messages.ERROR,
-    #             'Post failed to submit!'
-    #         )
-    #         return HttpResponseRedirect(reverse('homefeed'))
+        # Save valid post or redirect on error.
+        if post_form.is_valid():
+            post = post_form.save(commit=False)
+            post.user = request.user
+            post.save()
+            messages.add_message(
+                request, messages.SUCCESS,
+                'Post submitted successfully!'
+            )
+            return HttpResponseRedirect(reverse('homefeed'))
+        else:
+            messages.add_message(
+                request, messages.ERROR,
+                'Post failed to submit!'
+            )
+            return HttpResponseRedirect(reverse('homefeed'))
 
     # Render page if GET request.
-    # else:
-    post_form = PostForm()
-    return render(
-        request,
-        "homefeed/create_user_post.html",
-        {
-            "post_form": post_form,
-        }
-    )
+    else:
+        post_form = PostForm()
+        return render(
+            request,
+            "homefeed/create_user_post.html",
+            {
+                "post_form": post_form,
+            }
+        )
 
 
 # def edit_post(request, post_id):
