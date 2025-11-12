@@ -1,7 +1,7 @@
 from cloudinary.forms import CloudinaryFileField
 from django import forms
 
-from .models import Comment, Post
+from .models import Post
 
 
 class PostForm(forms.ModelForm):
