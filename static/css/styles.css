@@ -1,18 +1,18 @@
 /* Google fonts import */
 
-@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Stack+Sans+Text:wght@200..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&family=Stack+Sans+Text:wght@200..700&display=swap');
 
 /* Global font and colour control */
 
 :root {
   /* Fonts */
-  --font-sans: 'Merriweather', sans-serif;
+  --font-sans: 'Source Serif 4', sans-serif;
   --font-heading: 'Stack Sans Text', sans-serif;
 
   /* Theme colors */
-  --color-primary:#2660A4;
-  --color-secondary:#EDF7F6;
-  --color-highlight:#F19953;
+  --color-primary:#2E294E;
+  --color-background:#EADEDA;
+  --color-highlight:#D90368;
   --color-muted: #C47335;
   --color-text: #111827;
 
@@ -32,15 +32,32 @@
 html {
   scroll-behavior: smooth;
 }
-body {
-    background-color: var(--color-secondary);
-    color: var(--color-text);
+.navbar {
+  background-color: var(--color-primary);
+  padding-right: 0.85rem;
+  padding-left: 0.85rem;
+  min-height: 7vh;
 }
-nav {
-    color: var(--color-primary);
-}
-main {
 
+.navbar-brand {
+  font-family: var(--font-heading);
+  color: #fff;
+  max-height: 100px;
+  font-size: var(--fs-scale-3);
+}
+
+.navbar-nav {
+  font-family: var(--font-sans);
+  color: #fff;
+  font-size: 1.25rem; /* ~20px, more responsive */
+}
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--color-background);
+    color: var(--color-text);
+    font-family: var(--font-sans);
 }
 /* ----------------------------
    Standard breakpoint media queries
