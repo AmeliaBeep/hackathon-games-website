@@ -1,11 +1,16 @@
 from django.shortcuts import render
+from .models import Post
+
 
 # Create your views here.
 
 
-from django.shortcuts import render
-from django.http import HttpResponse
+class PostList(generic.ListView):
+    """View to list all posts.
 
-# Create your views here.
-def index(request):
-    return HttpResponse("Hello, World!")
+    Post objects can be accessed in the template through post_list
+    """
+
+    queryset = Post.objects.all()
+    template_name = "homefeed/home.html"
+    paginate_by = 10
