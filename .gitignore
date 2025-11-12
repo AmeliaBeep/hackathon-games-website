@@ -1,2 +1,30 @@
+# Local env / secrets
 .venv
 env.py
+
+# Django static and media
+# Collected static files (output of collectstatic)
+/staticfiles/
+media/
+test_media/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# Editor/OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Node
+node_modules/
+
+# Test and cache
+.pytest_cache/
+.mypy_cache/
+.coverage
