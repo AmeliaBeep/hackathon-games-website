@@ -20,7 +20,7 @@ class Post(models.Model):
 
     def __str__(self):
         return f"{self.user.username}'s post on {self.date_posted.strftime('%d-%m-%Y %H:%M:%S')}"
-    
+
 # Reaction model
 class Reaction(models.Model):
     REACTION_TYPES = [
@@ -48,3 +48,4 @@ class Reaction(models.Model):
 
     def __str__(self):
         return f"{self.user.username} reacted {self.reaction_type} to {self.post.id}"
+    
