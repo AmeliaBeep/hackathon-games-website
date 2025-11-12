@@ -4,7 +4,7 @@ env.py
 
 # Django static and media
 # Collected static files (output of collectstatic)
-/staticfiles/
+/staticfiles/*
 media/
 test_media/
 
