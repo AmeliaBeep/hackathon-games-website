@@ -4,6 +4,15 @@
 {% block content %}
 {% load static %}
 
-{{ post_form | crispy }}
+<form id="postForm" method="post" enctype='multipart/form-data'>
+    <div>
+        {{ post_form | crispy }}
+        <p>Posting as: {{ user.username }}</p>
+    </div>
+    {% csrf_token %}
+    <div>
+        <button id="submitButton" type="submit">Submit</button>
+    </div>
+</form>
 
 {% endblock %}
