@@ -24,42 +24,9 @@ def create_post(request):
 
     # Handle if POST request
     if request.method == "POST":
-        post_form = PostForm(request.POST, request.FILES)
 
-        # Get the image from the request.
-        # If unable then add an error to form to make it invalid.
-        try:
-            image = request.FILES.get('image')
-            content_type = image.content_type
-            valid_content = ["image/jpeg", "image/png", "image/svg+xml"]
-            if content_type not in valid_content:
-                messages.add_message(
-                    request, messages.ERROR,
-                    'File uploaded not one of the accepted types. '
-                    + 'Please try uploading an image of JPG, PNG or SVG format.'
-                )
-                raise ValueError(
-                    f'File content_type not in {valid_content}. '
-                    + f'Instead it was {content_type}.')
-        except (AttributeError, ValueError) as error:
-            post_form.add_error('image', error)
-
-        # Save valid post or redirect on error.
-        if post_form.is_valid():
-            post = post_form.save(commit=False)
-            post.user = request.user
-            post.save()
-            messages.add_message(
-                request, messages.SUCCESS,
-                'Post submitted successfully!'
-            )
-            return HttpResponseRedirect(reverse('homefeed'))
-        else:
-            messages.add_message(
-                request, messages.ERROR,
-                'Post failed to submit!'
-            )
-            return HttpResponseRedirect(reverse('homefeed'))
+        handle_post_update(request, operation="Create")
+        return HttpResponseRedirect(reverse('homefeed'))
 
     # Render page if GET request.
     else:
@@ -73,63 +40,35 @@ def create_post(request):
         )
 
 
-# def edit_post(request, post_id):
-#     """Handles POST and GET requests related to post editing.
+def edit_post(request, post_id):
 
-#     For POST requests, the target post in the database is updated:
-#         - The post has its text field set according to the form contents
-#         included in the request.
+    post = get_object_or_404(Post, pk=post_id)
 
-#     For GET requests, render the webpage for editing a target post.
+    # Redirect unauthorised users back to home page
+    if request.user != post.user:
+        messages.add_message(
+            request, messages.ERROR,
+            'Not authorised to edit this post!'
+        )
+        return HttpResponseRedirect(reverse('homefeed'))
 
-#     Args:
-#         request (HttpRequest): The request to process post editing or to
-#         serve the corresponding webpage
-#         post_id (int): The id of the post to edit.
+    # Handle if POST request
+    if request.method == "POST":
+        handle_post_update(request, operation="Update", instance=post)
+        return HttpResponseRedirect(reverse('homefeed'))
 
 
-#     Returns:
-#         Union[HttpRequest, HttpResponse]:
-#             - Upon handling a POST request, a redirect request including a
-#             success message.
-#             - Upon handling a GET request, a response containing the page
-#             and the post edit form to render.
-#     """
-
-#     post = get_object_or_404(Post, pk=post_id)
-
-#     # Redirect unauthorised users back to home page
-#     if not request.user.is_authenticated or request.user != post.author.user:
-#         messages.add_message(
-#             request, messages.ERROR,
-#             'Not authorised to edit this post!'
-#         )
-#         return HttpResponseRedirect(reverse('feed'))
-
-#     # Handle if POST request
-#     if request.method == "POST":
-#         post_form = PostTextForm(request.POST, instance=post)
-
-#         # Save valid post update or redirect on error.
-#         if post_form.is_valid() and post.author.user == request.user:
-#             post = post_form.save(commit=True)
-#             messages.add_message(request, messages.SUCCESS, 'Post updated!')
-#         else:
-#             messages.add_message(request, messages.ERROR,
-#                                  'Error updating post!')
-#         return HttpResponseRedirect(reverse('feed'))
-
-#     # Render page if GET request.
-#     else:
-#         post_text_form = PostTextForm(initial={'text': post.text})
-#         return render(
-#             request,
-#             "mainfeed/edit_post.html",
-#             {
-#                 "post": post,
-#                 "post_text_form": post_text_form,
-#             },
-#         )
+    # Render page if GET request.
+    else:
+        post_form = PostForm(initial={'caption':post.caption, 'text': post.text, 'image':post.image, })
+        return render(
+            request,
+            "homefeed/edit_user_post.html",
+            {
+                "post": post,
+                "post_form": post_form,
+            },
+        )
 
 
 # def delete_post(request, post_id):
@@ -153,3 +92,55 @@ def create_post(request):
 #         messages.add_message(request, messages.ERROR,
 #                              'Not authorised to delete this post!')
 #     return HttpResponseRedirect(reverse('feed'))
+
+def handle_post_update(request, operation, instance=None):
+    """Handles the POST request to update a post, or create a new one.
+
+    The PostForm object is constructed, including passing it any existing
+    post to update if it was called by the update function.
+
+    Images are checked to ensure they exist and to validate their content_type 
+    is one of the accepted values. If not, then an error is added to the
+    post_form instance to make it fail its is_valid() method.
+
+    Args:
+        request (HttpRequest): The request to process the deletion.
+        operation (str): The id of the post to delete.
+        instance (Post): The id of the post to delete.
+
+    Returns:
+        None
+    """
+
+    post_form = PostForm(request.POST, request.FILES, instance=instance)
+
+    try:
+        image = request.FILES.get('image')
+        content_type = image.content_type
+        valid_content = ["image/jpeg", "image/png", "image/svg+xml"]
+        if content_type not in valid_content:
+            messages.add_message(
+                request, messages.ERROR,
+                'File uploaded not one of the accepted types. '
+                + 'Please try uploading an image of JPG, PNG or SVG format.'
+            )
+            raise ValueError(
+                f'File content_type not in {valid_content}. '
+                + f'Instead it was {content_type}.')
+    except (AttributeError, ValueError) as error:
+        post_form.add_error('image', error)
+
+    # Save valid post or redirect on error.
+    if post_form.is_valid():
+        post = post_form.save(commit=False)
+        post.user = request.user
+        post.save()
+        messages.add_message(
+            request, messages.SUCCESS,
+            f'Post {operation} submitted successfully!'
+        )
+    else:
+        messages.add_message(
+            request, messages.ERROR,
+            f'Post {operation} failed to submit!'
+        )
