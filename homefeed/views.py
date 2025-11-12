@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, reverse
@@ -19,7 +20,8 @@ class PostList(generic.ListView):
     queryset = Post.objects.all()
     template_name = "homefeed/home.html"
 
-#@login_required
+
+@login_required
 def create_post(request):
 
     # Handle if POST request
@@ -39,7 +41,7 @@ def create_post(request):
             }
         )
 
-
+@login_required
 def edit_post(request, post_id):
 
     post = get_object_or_404(Post, pk=post_id)
@@ -70,28 +72,20 @@ def edit_post(request, post_id):
             },
         )
 
+@login_required
+def delete_post(request, post_id):
 
-# def delete_post(request, post_id):
-#     """Handles a request to delete a post.
+    post = get_object_or_404(Post, pk=post_id)
 
-#     Args:
-#         request (HttpRequest): The request to process the deletion.
-#         post_id (int): The id of the post to delete.
+    # Delete post if authorised or redirect on error.
+    if request.user == post.user:
+        post.delete()
+        messages.add_message(request, messages.SUCCESS, 'Post deleted!')
+    else:
+        messages.add_message(request, messages.ERROR,
+                             'Not authorised to delete this post!')
+    return HttpResponseRedirect(reverse('homefeed'))
 
-#     Returns:
-#         HttpResponse: a redirect request including a success message.
-#     """
-
-#     post = get_object_or_404(Post, pk=post_id)
-
-#     # Delete post if authorised or redirect on error.
-#     if request.user.is_authenticated and request.user == post.author.user:
-#         post.delete()
-#         messages.add_message(request, messages.SUCCESS, 'Post deleted!')
-#     else:
-#         messages.add_message(request, messages.ERROR,
-#                              'Not authorised to delete this post!')
-#     return HttpResponseRedirect(reverse('feed'))
 
 def handle_post_update(request, operation, instance=None):
     """Handles the POST request to update a post, or create a new one.
