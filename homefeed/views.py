@@ -63,15 +63,15 @@ def create_post(request):
     #         return HttpResponseRedirect(reverse('homefeed'))
 
     # Render page if GET request.
-    else:
-        post_form = PostForm()
-        return render(
-            request,
-            "mainfeed/create_post.html",
-            {
-                "post_form": post_form,
-            }
-        )
+    # else:
+    post_form = PostForm()
+    return render(
+        request,
+        "homefeed/create_user_post.html",
+        {
+            "post_form": post_form,
+        }
+    )
 
 
 # def edit_post(request, post_id):
