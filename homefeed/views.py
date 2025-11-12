@@ -72,13 +72,12 @@ def edit_post(request, post_id):
             },
         )
 
-@login_required
 def delete_post(request, post_id):
 
     post = get_object_or_404(Post, pk=post_id)
 
     # Delete post if authorised or redirect on error.
-    if request.user == post.user:
+    if request.user.is_authenticated and  request.user == post.user:
         post.delete()
         messages.add_message(request, messages.SUCCESS, 'Post deleted!')
     else:
