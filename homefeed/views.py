@@ -2,11 +2,11 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render, reverse
+from django.shortcuts import get_object_or_404, redirect, render, reverse
 from django.views import generic
 
 from .forms import PostForm
-from .models import Post
+from .models import Post, Reaction
 
 # Create your views here.
 
@@ -144,3 +144,22 @@ def handle_post_update(request, operation, instance=None):
             request, messages.ERROR,
             f'Post {operation} failed to submit!'
         )
+
+# Reactions
+@login_required
+def add_reaction(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    reaction_type = request.POST.get('reaction_type','like')
+
+    # Check for pre-exsiting reactipn
+    existing_reaction = Reaction.objects.filter(user=request.user, post=post).first()
+    if existing_reaction:
+        if existing_reaction.reaction_type == reaction_type:
+            existing_reaction.delete()
+        else:
+            existing_reaction.reaction_type = reaction_type
+            existing_reaction.save()
+    else:
+        Reaction.objects.create(user=request.user, post=post, reaction_type=reaction_type)
+
+    return redirect(request.META.get('HTTP_REFERER', '/'))
