@@ -18,11 +18,23 @@ html {
   scroll-behavior: smooth;
 }
 
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
 body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     font-family: var(--secondary-font);
     font-size: 1rem;
     color: var(--secondary-color);
     background-color: var(--background-color);
+}
+
+main {
+  flex: 1;
 }
 
 h2 {
@@ -31,6 +43,16 @@ h2 {
     text-align: center;
     color: var(--primary-color);
     padding: 0 0 40px;
+}
+
+a {
+  color: #fff;
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--accent-color);
+  text-decoration: underline;
 }
 
 /* Navbar styles with dropdown toggle */
@@ -103,6 +125,11 @@ h2 {
   text-align: center;
   background-color: var(--primary-color);
   color: #F2F2F2;
+}
+
+#footer h5 {
+  font-family: var(--primary-font);
+  font-size: 2rem;
 }
 
 /* ----------------------------
