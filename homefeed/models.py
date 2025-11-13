@@ -10,7 +10,7 @@ class Post(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='posts'
         )
-    image = CloudinaryField('image', blank=False)
+    image = CloudinaryField('image', blank=False, default="no-post-image.jpg")
     caption = models.CharField(max_length=120, blank=False)
     text = models.CharField(max_length=999, blank=True)
     date_posted = models.DateTimeField(auto_now_add=True)
