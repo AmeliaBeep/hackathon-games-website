@@ -13,7 +13,10 @@
             <img src="{% static 'img/default-placeholder.jpg' %}" alt="Default post image" class="card-img-top" loading="lazy">
           {% endif %}
           <div class="card-body">
-            <h5 class="card-title fw-semibold">{{ post.user.username }}</h5>
+            <div class="d-flex justify-content-between">
+                <h5 class="card-title fw-semibold">{{ post.user.username }}</h5>
+                <small class="text-muted mt-0">{{ post.date_posted|timesince }} ago</small>
+            </div>
             {% if post.caption %}
               <p class="card-text text-muted">{{ post.caption }}</p>
             {% endif %}
@@ -34,7 +37,6 @@
                 <span>{{ post.sad_count }}</span>
               </button>
             </form>
-            <small class="text-muted">{{ post.date_posted|timesince }} ago</small>
             {% if user.is_authenticated and user == post.user %}
             <div class="d-flex">
               <a class="btn btn-sm btn-outline-dark" href="{% url 'edit_post' post.id %}" aria-label="Edit post">Edit</a>
