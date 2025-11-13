@@ -58,10 +58,28 @@ h1 {
 .hero-img {
   object-fit: cover;
   width: 100%;
-  height: 30vh;
+  min-height: 10vh;
+  max-height: 40vh;
 }
 
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-  background-size: 2rem 2rem;
+/* Upload feed */
+
+.container {
+  max-width: 800px;
+  text-align: center;
+  aspect-ratio: 1/1;
+}
+.card-body h2 {
+  font-weight: 600;
+  font-family: var(--primary-font);
+}
+.card-body p {
+  font-family: var(--secondary-font);
+}
+.card-body img {
+  max-width: 600px;
+  max-height: 40vh;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
