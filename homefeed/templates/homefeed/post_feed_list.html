@@ -2,41 +2,36 @@
 {% load static %}
 
 <section class="container py-4 py-md-5 px-3">
-    <h2>Community Posts</h2>
-    <div class="row g-4">
+  <h2 class="mb-4 fw-bold">Community Posts</h2>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
     {% for post in post_list %}
-      <div class="col-12 col-md-6 col-lg-4">
+      <div class="col">
         <div class="card h-100 shadow-sm border-0">
           {% if post.image %}
-            <img 
-              src="{{ post.image.url }}" 
-              alt="{{ post.caption|default:'Post image' }}" 
-              class="card-img-top img-fluid rounded-top"
-              loading="lazy"
-            >
+            <img src="{{ post.image.url }}" alt="{{ post.caption|default:'Post image' }}" class="card-img-top" loading="lazy">
+          {% else %}
+            <img src="{% static 'img/default-placeholder.jpg' %}" alt="Default post image" class="card-img-top" loading="lazy">
           {% endif %}
           <div class="card-body">
-            <h2 class="card-title mb-2">{{ post.user.username }}</h2>
-            {% if user.is_authenticated and user == post.user %}
-            <a class="nav-link" aria-label="Edit post"
-                style="background:orange"
-                href="{% url 'edit_post' post.id %}">Edit Post</a>
-            {% endif %}
+            <h5 class="card-title fw-semibold">{{ post.user.username }}</h5>
             {% if post.caption %}
-              <p class="card-text text-muted mb-3">{{ post.caption }}</p>
+              <p class="card-text text-muted">{{ post.caption }}</p>
             {% endif %}
             {% if post.text %}
               <p class="card-text">{{ post.text|linebreaksbr }}</p>
             {% endif %}
           </div>
-          <div class="card-footer bg-transparent border-0 text-end">
-            <small class="text-muted">Posted on {{ post.date_posted|date:"M d, Y" }}</small>
+          <div class="card-footer bg-transparent border-0 d-flex justify-content-between align-items-center">
+            <small class="text-muted">{{ post.date_posted|timesince }} ago</small>
+            {% if user.is_authenticated and user == post.user %}
+              <a class="btn btn-sm btn-outline-dark" href="{% url 'edit_post' post.id %}" aria-label="Edit post">Edit</a>
+            {% endif %}
           </div>
         </div>
       </div>
     {% empty %}
       <div class="col-12 text-center py-5">
-        <p class="text-muted">No posts available yet.</p>
+        <p class="text-muted">No posts available yet. Be the first to share something!</p>
       </div>
     {% endfor %}
   </div>

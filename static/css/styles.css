@@ -73,7 +73,7 @@ h2 {
 .container {
   aspect-ratio: 1/1;
 }
-.card-body h2 {
+.card-body h5 {
   font-weight: 600;
   font-family: var(--primary-font);
 }
@@ -89,6 +89,12 @@ h2 {
 .card:hover {
   transform: translateY(-4px);
   transition: 0.2s ease-in-out;
+}
+.card-img-top {
+  object-fit: cover;
+  height: 220px;
+  width: 100%;
+  border-bottom: 1px solid #eaeaea;
 }
 
 /* Footer */
