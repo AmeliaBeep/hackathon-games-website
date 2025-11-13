@@ -36,8 +36,10 @@
             </form>
             <small class="text-muted">{{ post.date_posted|timesince }} ago</small>
             {% if user.is_authenticated and user == post.user %}
+            <div class="d-flex">
               <a class="btn btn-sm btn-outline-dark" href="{% url 'edit_post' post.id %}" aria-label="Edit post">Edit</a>
               <button class="btn btn-sm btn-outline-dark delete-post-button" data-post-id="{{ post.id }}" aria-label="Delete post">Delete</a>
+            </div>
             {% endif %}
           </div>
         </div>
