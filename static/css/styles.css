@@ -58,10 +58,38 @@ h1 {
 .hero-img {
   object-fit: cover;
   width: 100%;
-  height: 30vh;
+  min-height: 10vh;
+  max-height: 40vh;
 }
 
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-  background-size: 2rem 2rem;
+/* Upload feed */
+
+#discover .container {
+  max-height: 300px;
 }
+.container {
+  aspect-ratio: 1/1;
+}
+.card-body h2 {
+  font-weight: 600;
+  font-family: var(--primary-font);
+}
+.card-body p {
+  font-family: var(--secondary-font);
+}
+.card-body img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  max-height: 40vh;
+}
+.card:hover {
+  transform: translateY(-4px);
+  transition: 0.2s ease-in-out;
+}
+
+/* ----------------------------
+   Standard breakpoint media queries
+   XS: <576px, SM: 576-767.98px, MD: 768-991.98px,
+   LG: 992-1199.98px, XL: >=1200px
+   ---------------------------- */

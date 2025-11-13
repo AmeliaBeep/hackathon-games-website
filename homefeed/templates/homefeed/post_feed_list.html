@@ -2,23 +2,42 @@
 {% load static %}
 
 <section class="container py-4 py-md-5 px-3">
-    <div class="row">
-        <div class="col-12">
-            <div class="card h-100">
-                <div class="card-body">
-                    {% for post in post_list %}
-                    <h2>{{ post.user.username }}</h2>
-                    <p>{{ post.caption }}</p>
-                    {% if post.image %}
-                    <img src="{{ post.image.url }}" alt="Post image">
-                    {% endif %}
-                    <p>{{ post.text }}</p>
-                    <small>Posted on {{ post.date_posted }}</small>
-                    {% endfor %}
-                </div>
-            </div>
+  <div class="row g-4">
+    {% for post in post_list %}
+      <!-- 
+        col-12  → full width on extra-small screens (<576px)
+        col-sm-4 → 3 cards per row on small screens and up (≥576px)
+      -->
+      <div class="col-12 col-sm-4">
+        <div class="card h-100 shadow-sm border-0">
+          {% if post.image %}
+            <img 
+              src="{{ post.image.url }}" 
+              alt="{{ post.caption|default:'Post image' }}" 
+              class="card-img-top img-fluid rounded-top"
+              loading="lazy"
+            >
+          {% endif %}
+          <div class="card-body">
+            <h2 class="card-title mb-2">{{ post.user.username }}</h2>
+            {% if post.caption %}
+              <p class="card-text text-muted mb-3">{{ post.caption }}</p>
+            {% endif %}
+            {% if post.text %}
+              <p class="card-text">{{ post.text|linebreaksbr }}</p>
+            {% endif %}
+          </div>
+          <div class="card-footer bg-transparent border-0 text-end">
+            <small class="text-muted">Posted on {{ post.date_posted|date:"M d, Y" }}</small>
+          </div>
         </div>
-    </div>
+      </div>
+    {% empty %}
+      <div class="col-12 text-center py-5">
+        <p class="text-muted">No posts available yet.</p>
+      </div>
+    {% endfor %}
+  </div>
 </section>
 
 {% endblock %}
