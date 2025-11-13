@@ -1,33 +1,49 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render, reverse
-from django.views import generic
 
 from .forms import PostForm
 from .models import Post, Reaction
-from django.db.models import Count, Q
+from django.db.models import Count, Q, OuterRef, Value, Subquery, CharField
 
 # Create your views here.
 
 
-class PostList(generic.ListView):
-    """View to list all posts.
+def display_posts(request):
 
-    Post objects can be accessed in the template through post_list
-    """
-    template_name = "homefeed/home.html"
+    # Get value of user's reaction or set as blank
+    if request.user.is_authenticated:
+        # Subquery to fetch the reaction made on the post 
+        reaction_type_subquery = Reaction.objects.filter(
+            user=request.user,
+            post=OuterRef('pk'),
+        ).values('reaction_type')[:1]
 
-    queryset = (
+        user_reaction = Subquery(reaction_type_subquery, output_field=CharField())
+    else:
+        # For anonymous users, return an empty queryset and blank reaction.
+        user_reaction = Value('', output_field=CharField())
+
+    post_list = (
         Post.objects
         .annotate(
             like_count=Count('reactions', filter=Q(reactions__reaction_type='like')),
             laugh_count=Count('reactions', filter=Q(reactions__reaction_type='laugh')),
             sad_count=Count('reactions', filter=Q(reactions__reaction_type='sad')),
+            user_reaction=user_reaction
         )
         .order_by('-date_posted')
     )
+
+    return render(
+            request,
+            "homefeed/home.html",
+            {
+                "post_list": post_list,
+            }
+        )
+
 
 @login_required
 def create_post(request):

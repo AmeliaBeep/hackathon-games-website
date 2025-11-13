@@ -27,13 +27,16 @@
           <div class="card-footer bg-transparent border-0 d-flex justify-content-between align-items-center">
             <form action="{% url 'add_reaction' post.id %}" method="POST">
               {% csrf_token %}
-              <button class="bg-transparent shadow-sm border-0" type="submit" name="reaction_type" value="like">👍
+              <button class="bg-transparent shadow-sm border-0 {% if post.user_reaction == 'like' %}user-reacted{% endif %}" 
+                type="submit" name="reaction_type" value="like">👍
                 <span>{{ post.like_count }}</span>
               </button>
-              <button class="bg-transparent shadow-sm border-0" type="submit" name="reaction_type" value="laugh">😂
+              <button class="bg-transparent shadow-sm border-0 {% if post.user_reaction == 'laugh' %}user-reacted{% endif %}" 
+                type="submit" name="reaction_type" value="laugh">😂
                 <span>{{ post.laugh_count }}</span>
               </button>
-              <button class="bg-transparent shadow-sm border-0" type="submit" name="reaction_type" value="sad">😢
+              <button class="bg-transparent shadow-sm border-0 {% if post.user_reaction == 'sad' %}user-reacted{% endif %}"
+                type="submit" name="reaction_type" value="sad">😢
                 <span>{{ post.sad_count }}</span>
               </button>
             </form>

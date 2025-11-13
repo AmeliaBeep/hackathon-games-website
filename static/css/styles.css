@@ -126,6 +126,10 @@ form button:hover > span {
   color: var(--grey-highlight);
   transition: color .15s ease-in-out;
 }
+.user-reacted span {
+  color: var(--accent-color);
+  transition: color .15s ease-in-out;
+}
 .post-buttons {
   width: 60px;
   margin: 0px 2px;
