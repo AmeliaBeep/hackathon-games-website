@@ -24,37 +24,35 @@
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    <nav class="navbar sticky-top navbar-expand-lg navbar-dark">
-        <div class="container-fluid">
-            <a href="#" class="navbar-brand">
-                <img src="/static/images/checkpoint-logo.png" style="max-height: 60px;">
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Home</a>
-                    </li>
-                    {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Welcome, {{ user.username }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Logout</a>
-                    </li>
-                    {% else %}
-                    <li class="nav-item">
-                    <a class="nav-link" href="#">Login</a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link" href="#">Sign Up</a>
-                    </li>
-                    {% endif %}
-                </ul>
-            </div>
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+        <a href="{% url 'homefeed' %}" class="navbar-brand">
+            <img src="{% static 'images/checkpoint-logo.png' %}" style="max-height: 60px;">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'homefeed' %}">Home</a>
+                </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ logout_url }}">Logout</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ login_url }}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ signup_url }}">Sign Up</a>
+                </li>
+                {% endif %}
+            </ul>
         </div>
-  </nav>
+    </div>
+</nav>
     
     <main>
 
