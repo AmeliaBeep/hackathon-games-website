@@ -1,66 +1,67 @@
 /* Google fonts import */
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
-@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&family=Stack+Sans+Text:wght@200..700&display=swap');
-
-/* Global font and colour control */
-
+/* CSS Variables */
 :root {
-  /* Fonts */
-  --font-sans: 'Source Serif 4', sans-serif;
-  --font-heading: 'Stack Sans Text', sans-serif;
-
-  /* Theme colors */
-  --color-primary:#2E294E;
-  --color-background:#EADEDA;
-  --color-highlight:#D90368;
-  --color-muted: #C47335;
-  --color-text: #111827;
-
-    /* Layout */
-  --max-content-width: 1400px;
-
-  /* Base font size: fluid between 14px and 18px */
-  --fs-base: clamp(0.875rem, 0.85rem + 0.3vw, 1.125rem); /* ~14px - 18px */
-  --fs-scale-1: clamp(1.125rem, 1.05rem + 1.0vw, 1.5rem); /* h6 / small headings */
-  --fs-scale-2: clamp(1.25rem, 1.15rem + 1.25vw, 1.75rem); /* h4 */
-  --fs-scale-3: clamp(1.5rem, 1.35rem + 1.75vw, 2.25rem); /* h3 */
-  --fs-scale-4: clamp(2rem, 1.9rem + 2.5vw, 3rem); /* h2 */
-  --fs-scale-5: clamp(2.5rem, 2.3rem + 3vw, 4rem); /* h1 */
-
+    --primary-font: "Pixelify Sans", sans-serif;
+    --secondary-font: "Roboto", sans-serif;
+    --primary-color: 	#313a32; /* Dark Green */
+    --secondary-color: #363e52; /* Navy Blue */
+    --text-color: #2a2a2a; /* Black */
+    --accent-color: #FF6F61; /* Coral */
+    --background-color: #F2F2F2; /* Mist Grey */
 }
+
+/* Global styles */
 
 html {
   scroll-behavior: smooth;
 }
-.navbar {
-  background-color: var(--color-primary);
-  padding-right: 0.85rem;
-  padding-left: 0.85rem;
-  min-height: 7vh;
-}
 
-.navbar-brand {
-  font-family: var(--font-heading);
-  color: #fff;
-  max-height: 100px;
-  font-size: var(--fs-scale-3);
-}
-
-.navbar-nav {
-  font-family: var(--font-sans);
-  color: #fff;
-  font-size: 1.25rem; /* ~20px, more responsive */
-}
 body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    background-color: var(--color-background);
-    color: var(--color-text);
-    font-family: var(--font-sans);
+    font-family: var(--secondary-font);
+    font-size: 1rem;
+    color: var(--secondary-color);
+    background-color: var(--background-color);
 }
-/* ----------------------------
-   Standard breakpoint media queries
-   XS: <576px, SM: 576-767.98px, MD: 768-991.98px,
-   LG: 992-1199.98px, XL: >=1200px
-   ---------------------------- */
+
+h1 {
+    font-family: var(--secondary-font);
+    color: var(--primary-color);
+}
+
+/* Navbar styles with dropdown toggle */
+
+.navbar {
+    background-color: var(--primary-color);
+    min-height: 7vh;
+    padding-left: 30px;
+    padding-right: 30px;
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, .2);
+    font-family: var(--primary-font);
+    font-size: 24px;
+}
+
+.logo {
+    align-items: start;
+    max-height: 50px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+}
+
+.collapse {
+    padding-left: 25px;
+}
+
+/* Carousel */
+
+.hero-img {
+  object-fit: cover;
+  width: 100%;
+  height: 30vh;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-size: 2rem 2rem;
+}
