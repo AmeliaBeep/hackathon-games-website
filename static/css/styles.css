@@ -118,7 +118,11 @@ a:hover {
   width: 100%;
   border-bottom: 1px solid #eaeaea;
 }
-
+.card-footer div * {
+  width: 60px;
+  margin-right: 2px;
+  margin-left: 2px;
+}
 /* Footer */
 
 #footer {
