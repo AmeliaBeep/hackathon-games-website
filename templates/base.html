@@ -61,8 +61,15 @@
         {% block content %}
         {% endblock content %}
 
-        <footer>
-
+        <footer id="footer" class="py-4 py-md-5 px-3">
+        <div>
+          <h5>Support the project
+          </h5>
+          <p class="text-center"><br><a href="https://github.com/AmeliaBeep/hackathon-games-website"><i class="fa-brands fa-github"></i> Follow on Github</a>
+          </p>
+        </div>
+        <div class="text-center p-3"> © {{ now|date:"Y" }} Team 1
+        </div>
         </footer>
         
         <!-- Bootstrap JS -->
