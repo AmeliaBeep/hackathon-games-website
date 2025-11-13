@@ -3,14 +3,14 @@
 {% block content %}
 {% load static %}
 
-<div>
-    <h1>Post list</h1>
-    {% for post in post_list %}
-    {{ post.id }}
-    {{ post.caption }}
-    {{ post.text }}
-    <img src="{{ post.image.url }}" width="10%">
-    {% endfor %}
+  <!-- Full width hero carousel -->
+<div id="hero-bannner" class="hero-bannner" data-bs-ride="hero-bannner">
+    <div">
+        <img src="/static/images/webp/alien-planet.webp" class="d-block w-100 hero-img" alt="" width="1920" height="1080" loading="lazy">
+    </div>
 </div>
+
+<!-- Include the post feed -->
+{% include 'homefeed/post_feed_list.html' %}
 
 {% endblock %}
