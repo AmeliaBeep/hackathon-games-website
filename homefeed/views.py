@@ -7,6 +7,7 @@ from django.views import generic
 
 from .forms import PostForm
 from .models import Post, Reaction
+from django.db.models import Count, Q
 
 # Create your views here.
 
@@ -16,10 +17,17 @@ class PostList(generic.ListView):
 
     Post objects can be accessed in the template through post_list
     """
-
-    queryset = Post.objects.all()
     template_name = "homefeed/home.html"
 
+    queryset = (
+        Post.objects
+        .annotate(
+            like_count=Count('reactions', filter=Q(reactions__reaction_type='like')),
+            laugh_count=Count('reactions', filter=Q(reactions__reaction_type='laugh')),
+            sad_count=Count('reactions', filter=Q(reactions__reaction_type='sad')),
+        )
+        .order_by('-date_posted')
+    )
 
 @login_required
 def create_post(request):
