@@ -110,9 +110,11 @@ def handle_post_update(request, operation, instance=None):
 
     post_form = PostForm(request.POST, request.FILES, instance=instance)
 
-    # Get image submitted or make form invalid.
+    # Get any image submitted
+    # Make create posts fail if there is no image
     try:
         image = request.FILES.get('image')
+
         content_type = image.content_type
         valid_content = ["image/jpeg", "image/png", "image/svg+xml"]
 
@@ -125,8 +127,17 @@ def handle_post_update(request, operation, instance=None):
             raise ValueError(
                 f'File content_type not in {valid_content}. '
                 + f'Instead it was {content_type}.')
-
-    # AttributeError is automatically raised if no image can be found.
+        
+    # Raised if no image in FILES
+    # Update operation should continue and ignore this error
+    except AttributeError:
+        if operation == 'Create':
+            messages.add_message(
+                request, messages.ERROR, 'Posts require an image!')
+            raise AttributeError(
+                f'New posts require an image.')
+        else:
+            pass        
     except (AttributeError, ValueError) as error:
         post_form.add_error('image', error)
 
