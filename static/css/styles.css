@@ -51,6 +51,10 @@ a {
   text-decoration: none;
 }
 
+.link-white-background {
+  color: var(--accent-color);
+}
+
 a:hover {
   color: var(--accent-color);
   text-decoration: underline;
