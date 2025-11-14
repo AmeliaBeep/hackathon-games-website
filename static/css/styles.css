@@ -161,6 +161,18 @@ form button:hover > span {
 /* ----------------------------
    Standard breakpoint media queries
    ---------------------------- */
+@media (max-width: 575.98px) {
+  #feed {
+    padding-top: 40px;
+  }
+  .navbar {
+    min-height: 12vh;
+  }
+  .hero-img {
+    min-height: 50vh;
+  }
+}
+
 @media (max-width: 991px) {
   .navbar-collapse {
     background: var(--primary-color);
