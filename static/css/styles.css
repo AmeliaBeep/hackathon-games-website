@@ -10,6 +10,7 @@
     --text-color: #2a2a2a; /* Black */
     --accent-color: #FF6F61; /* Coral */
     --background-color: #F2F2F2; /* Mist Grey */
+    --grey-highlight: #6c757d; /* BS muted text grey */
 }
 
 /* Global styles */
@@ -118,10 +119,27 @@ a:hover {
   width: 100%;
   border-bottom: 1px solid #eaeaea;
 }
-.card-footer div * {
+form * {
+  height: 29px;
+}
+form button:hover > span {
+  color: var(--grey-highlight);
+  transition: color .15s ease-in-out;
+}
+.user-reacted span {
+  color: var(--accent-color);
+  transition: color .15s ease-in-out;
+}
+.post-buttons {
   width: 60px;
-  margin-right: 2px;
-  margin-left: 2px;
+  margin: 0px 2px;
+  box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
+  border-radius: 0;
+  border: none;
+}
+.post-buttons:hover {
+  text-decoration: none;
+  color:var(--grey-highlight);
 }
 /* Footer */
 
