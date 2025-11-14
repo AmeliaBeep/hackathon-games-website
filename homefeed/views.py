@@ -181,8 +181,15 @@ def handle_post_update(request, operation, instance=None):
         )
 
 # Reactions
-@login_required
 def add_reaction(request, post_id):
+    # Redirect unauthenticated users back to home page.
+    if not request.user.is_authenticated:
+        messages.add_message(
+            request, messages.INFO,
+            'Sign in to react to posts!'
+        )
+        return HttpResponseRedirect(reverse('homefeed'))
+    
     post = get_object_or_404(Post, id=post_id)
     reaction_type = request.POST.get('reaction_type','like')
 
@@ -197,4 +204,4 @@ def add_reaction(request, post_id):
     else:
         Reaction.objects.create(user=request.user, post=post, reaction_type=reaction_type)
 
-    return redirect(request.META.get('HTTP_REFERER', '/'))
+    return HttpResponseRedirect(reverse('homefeed'))
