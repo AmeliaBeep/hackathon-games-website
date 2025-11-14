@@ -116,4 +116,11 @@ CheckPoint uses **Cloudinary** for media storage and delivery:
 
 ### Lighthouse Testing:
 
-![lighthouse result](static\images\lighthouse-test-result.PNG)
+![lighthouse result](/static/images/lighthouse-test-result.PNG)
+
+### Python Linting
+| File | Pass/Fail | Img |
+|---|---|---|
+| models | Pass | ![Alt text](/static/images/models.png) |
+| views | Pass | ![Alt text](/static/images/views.png) |
+| urls | Pass | ![Alt text](/static/images/urls.png) |
