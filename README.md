@@ -107,7 +107,7 @@ CheckPoint uses **Cloudinary** for media storage and delivery:
 ---
 
 
-## Testing
+## 🔧 Testing
 
 ### Manual testing:
 
@@ -133,9 +133,5 @@ CheckPoint uses **Cloudinary** for media storage and delivery:
 | views | Pass | ![Alt text](/static/images/views.png) |
 | urls | Pass | ![Alt text](/static/images/urls.png) |
 
-## 🪞 Reflection
-- Building CheckPoint demonstrated the importance of **CRUD fundamentals** in web apps.  
-- Using **Heroku + Git** simplified deployment and version control.  
-- Integrating **Cloudinary** made handling user images scalable and production‑ready.  
-- Future improvements could include comments, categories, and search functionality.
-- We have a small issue inside the base templates that pushes the burger menu off the navbar in the smallest screen sizes. We wanted to address this but agreed not to change any code midday Friday as to not cause any other larger issues elsewhere, we've currently deemed this an acceptable bug as the smallest screen sizes (foldables) are still quite niche tech but this will be fixed in later revisions.
+## Note
+We have a small issue inside the base templates that pushes the burger menu off the navbar in the smallest screen sizes. We wanted to address this but agreed not to change any code midday Friday as to not cause any other larger issues elsewhere, we've currently deemed this an acceptable but as the smallest screen sizes (foldables) are still quite niche tech but this would be fixed in any later revisions.
