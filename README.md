@@ -98,3 +98,11 @@ CheckPoint uses **Cloudinary** for media storage and delivery:
 - Integrating **Cloudinary** made handling user images scalable and production‑ready.  
 - Future improvements could include comments, categories, and search functionality.  
 
+
+## Testing
+
+Manual testing was performed:
+
+|  Function  |  Test  |  Result  |
+|------------|--------|----------|
+xxxxxxxxxxx|xxxx|xxxxx
