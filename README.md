@@ -116,4 +116,4 @@ CheckPoint uses **Cloudinary** for media storage and delivery:
 
 ### Lighthouse Testing:
 
-![lighthouse result](static\images\lighthouse test result.PNG)
+![lighthouse result](static\images\lighthouse-test-result.PNG)
