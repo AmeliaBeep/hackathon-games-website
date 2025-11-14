@@ -21,17 +21,19 @@ Users can create posts about their favorite titles, attach images, and interact 
 - **Homepage / Feed**  
   Each post shows:
   - Username
-  - Title
+  - Caption
+  - Date and Time since posted
   - Image (scaled responsively to fit the feed)
   - Text content
   - Reactions
   - Datestamp
+  - Edit and Delete buttons for a post author
 
 - **Navigation Bar**  
   Provides quick access to:
   - Home
-  - Login
-  - Sign Up
+  - Create Post for signed in users
+  - Login, Logout and Sign Up as appropriate
 
 - **Authentication Pages**  
   Custom templates for login and signup, styled with Bootstrap.  
@@ -39,22 +41,21 @@ Users can create posts about their favorite titles, attach images, and interact 
 
 ---
 
-## 🔧 CRUD Functions
+## 🔧 CRUD Post Functions
 - **Create**  
   Authenticated users can create a new post with:
-  - Title
-  - Text
-  - Optional image upload (validated and resized to fit the feed)
+  - Caption
+  - Optional Text
+  - Image upload (validated and resized to fit the feed)
 
 - **Read**  
-  All posts are displayed on the homepage feed.  
-  Users can view posts with images, text, reactions, and timestamps.
+  All posts are displayed on the homepage feed.
 
 - **Update**  
   Post owners can edit their own posts:
-  - Change title
-  - Update text
-  - Replace image
+  - Change Caption
+  - Update Text
+  - Replace Image
 
 - **Delete**  
   Post owners can delete their own posts.  
@@ -62,9 +63,24 @@ Users can create posts about their favorite titles, attach images, and interact 
 
 ---
 
-## 😀 Reactions
+## 😀 CRUD Reaction functions
 Each post supports **three reactions**.  
-Users can click to react, and reaction counts update dynamically.
+- **Create**  
+  Authenticated users can add a Reaction by clicking one of the button options
+  Reaction types are:
+  - Like
+  - Laugh
+  - Sad
+
+- **Read**  
+  - The count of each Reaction is visble on each post.
+  - A user's chosen Reaction is indicated through different colouring.
+
+- **Update**  
+  Clicking a new Reaction will change their Reaction.
+
+- **Delete**  
+  Clicking a the current Reaction will remove it.
 
 ---
 
@@ -72,7 +88,6 @@ Users can click to react, and reaction counts update dynamically.
 CheckPoint uses **Cloudinary** for media storage and delivery:
 - User‑uploaded images are stored in Cloudinary instead of the local filesystem.  
 - Images are served via CDN for fast performance.  
-- Transformations (resize, crop, optimize) ensure responsive display.  
 - API keys are stored securely as environment variables.  
 
 ---
@@ -90,13 +105,6 @@ CheckPoint uses **Cloudinary** for media storage and delivery:
   PostgreSQL is used both locally for development and in production.
 
 ---
-
- 
-## 🪞 Reflection
-- Building CheckPoint demonstrated the importance of **CRUD fundamentals** in web apps.  
-- Using **Heroku + Git** simplified deployment and version control.  
-- Integrating **Cloudinary** made handling user images scalable and production‑ready.  
-- Future improvements could include comments, categories, and search functionality.  
 
 
 ## Testing
@@ -125,5 +133,9 @@ CheckPoint uses **Cloudinary** for media storage and delivery:
 | views | Pass | ![Alt text](/static/images/views.png) |
 | urls | Pass | ![Alt text](/static/images/urls.png) |
 
-### Notes
+## 🪞 Reflection
+- Building CheckPoint demonstrated the importance of **CRUD fundamentals** in web apps.  
+- Using **Heroku + Git** simplified deployment and version control.  
+- Integrating **Cloudinary** made handling user images scalable and production‑ready.  
+- Future improvements could include comments, categories, and search functionality.
 - We have a small issue inside the base templates that pushes the burger menu off the navbar in the smallest screen sizes. We wanted to address this but agreed not to change any code midday Friday as to not cause any other larger issues elsewhere, we've currently deemed this an acceptable bug as the smallest screen sizes (foldables) are still quite niche tech but this will be fixed in later revisions.
