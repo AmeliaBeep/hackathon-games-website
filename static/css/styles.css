@@ -135,3 +135,20 @@ a:hover {
 /* ----------------------------
    Standard breakpoint media queries
    ---------------------------- */
+@media (max-width: 991px) {
+  .navbar-collapse {
+    background: var(--primary-color);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+  }
+  .navbar-collapse.show {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    width: 100vw;
+    border-radius: 0 0 16px 16px;
+    z-index: 1000;
+  }
+  .navbar-nav .nav-link {
+    color: #fff !important;
+  }
+}
