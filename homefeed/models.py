@@ -19,7 +19,11 @@ class Post(models.Model):
         ordering = ['-date_posted']
 
     def __str__(self):
-        return f"{self.user.username}'s post on {self.date_posted.strftime('%d-%m-%Y %H:%M:%S')}"
+        return (
+            f"{self.user.username}'s post on "
+            f"{self.date_posted.strftime('%d-%m-%Y %H:%M:%S')}"
+        )
+
 
 # Reaction model
 class Reaction(models.Model):
@@ -42,10 +46,15 @@ class Reaction(models.Model):
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['user', 'post'], name='unique_user_post_reaction')
+            models.UniqueConstraint(
+                fields=['user', 'post'],
+                name='unique_user_post_reaction'
+            )
         ]
         ordering = ['-created_at']
 
     def __str__(self):
-        return f"{self.user.username} reacted {self.reaction_type} to {self.post.id}"
-    
+        return (
+            f"{self.user.username} reacted {self.reaction_type} "
+            f"to {self.post.id}"
+        )

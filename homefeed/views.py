@@ -14,13 +14,15 @@ def display_posts(request):
 
     # Get value of user's reaction or set as blank
     if request.user.is_authenticated:
-        # Subquery to fetch the reaction made on the post 
+        # Subquery to fetch the reaction made on the post
         reaction_type_subquery = Reaction.objects.filter(
             user=request.user,
             post=OuterRef('pk'),
         ).values('reaction_type')[:1]
 
-        user_reaction = Subquery(reaction_type_subquery, output_field=CharField())
+        user_reaction = Subquery(
+            reaction_type_subquery, output_field=CharField()
+        )
     else:
         # For anonymous users, return an empty queryset and blank reaction.
         user_reaction = Value('', output_field=CharField())
@@ -28,9 +30,15 @@ def display_posts(request):
     post_list = (
         Post.objects
         .annotate(
-            like_count=Count('reactions', filter=Q(reactions__reaction_type='like')),
-            laugh_count=Count('reactions', filter=Q(reactions__reaction_type='laugh')),
-            sad_count=Count('reactions', filter=Q(reactions__reaction_type='sad')),
+            like_count=Count(
+                'reactions', filter=Q(reactions__reaction_type='like')
+            ),
+            laugh_count=Count(
+                'reactions', filter=Q(reactions__reaction_type='laugh')
+            ),
+            sad_count=Count(
+                'reactions', filter=Q(reactions__reaction_type='sad')
+            ),
             user_reaction=user_reaction
         )
         .order_by('-date_posted')
@@ -64,6 +72,7 @@ def create_post(request):
             }
         )
 
+
 @login_required
 def edit_post(request, post_id):
 
@@ -82,13 +91,12 @@ def edit_post(request, post_id):
         handle_post_update(request, operation="Update", instance=post)
         return HttpResponseRedirect(reverse('homefeed'))
 
-
     # Render page if GET request.
     else:
         post_form = PostForm(
-            initial={'caption':post.caption,
+            initial={'caption': post.caption,
                      'text': post.text,
-                     'image':post.image, })
+                     'image': post.image, })
 
         return render(
             request,
@@ -99,12 +107,13 @@ def edit_post(request, post_id):
             },
         )
 
+
 def delete_post(request, post_id):
 
     post = get_object_or_404(Post, pk=post_id)
 
     # Delete post if authorised or redirect on error.
-    if request.user.is_authenticated and  request.user == post.user:
+    if request.user.is_authenticated and request.user == post.user:
         post.delete()
         messages.add_message(request, messages.SUCCESS, 'Post deleted!')
     else:
@@ -151,7 +160,7 @@ def handle_post_update(request, operation, instance=None):
             raise ValueError(
                 f'File content_type not in {valid_content}. '
                 + f'Instead it was {content_type}.')
-        
+
     # Raised if no image in FILES
     # Update operation should continue and ignore this error
     except AttributeError:
@@ -159,9 +168,9 @@ def handle_post_update(request, operation, instance=None):
             messages.add_message(
                 request, messages.ERROR, 'Posts require an image!')
             raise AttributeError(
-                f'New posts require an image.')
+                'New posts require an image.')
         else:
-            pass        
+            pass
     except (AttributeError, ValueError) as error:
         post_form.add_error('image', error)
 
@@ -180,7 +189,9 @@ def handle_post_update(request, operation, instance=None):
             f'Post {operation} failed to submit!'
         )
 
+
 # Reactions
+
 def add_reaction(request, post_id):
     # Redirect unauthenticated users back to home page.
     if not request.user.is_authenticated:
@@ -189,12 +200,14 @@ def add_reaction(request, post_id):
             'Sign in to react to posts!'
         )
         return HttpResponseRedirect(reverse('homefeed'))
-    
+
     post = get_object_or_404(Post, id=post_id)
-    reaction_type = request.POST.get('reaction_type','like')
+    reaction_type = request.POST.get('reaction_type', 'like')
 
     # Check for pre-exsiting reactipn
-    existing_reaction = Reaction.objects.filter(user=request.user, post=post).first()
+    existing_reaction = Reaction.objects.filter(
+        user=request.user, post=post
+    ).first()
     if existing_reaction:
         if existing_reaction.reaction_type == reaction_type:
             existing_reaction.delete()
@@ -202,6 +215,8 @@ def add_reaction(request, post_id):
             existing_reaction.reaction_type = reaction_type
             existing_reaction.save()
     else:
-        Reaction.objects.create(user=request.user, post=post, reaction_type=reaction_type)
+        Reaction.objects.create(
+            user=request.user, post=post, reaction_type=reaction_type
+        )
 
     return HttpResponseRedirect(reverse('homefeed'))
