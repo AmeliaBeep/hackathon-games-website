@@ -124,3 +124,6 @@ CheckPoint uses **Cloudinary** for media storage and delivery:
 | models | Pass | ![Alt text](/static/images/models.png) |
 | views | Pass | ![Alt text](/static/images/views.png) |
 | urls | Pass | ![Alt text](/static/images/urls.png) |
+
+### Notes
+- We have a small issue inside the base templates that pushes the burger menu off the navbar in the smallest screen sizes. We wanted to address this but agreed not to change any code midday Friday as to not cause any other larger issues elsewhere, we've currently deemed this an acceptable bug as the smallest screen sizes (foldables) are still quite niche tech but this will be fixed in later revisions.
