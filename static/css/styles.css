@@ -119,7 +119,7 @@ a:hover {
   width: 100%;
   border-bottom: 1px solid #eaeaea;
 }
-form * {
+.reaction-form  {
   height: 29px;
 }
 form button:hover > span {
